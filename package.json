@@ -1,0 +1,17 @@
+{
+  "name": "rest-api",
+  "version": "1.0.0",
+  "description": "this the first ma project rest api, when i was learn make API",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon ."
+  },
+  "author": "Faqih Zada Ikhsan",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mysql": "^2.18.1",
+    "nodemon": "^2.0.7"
+  }
+}
