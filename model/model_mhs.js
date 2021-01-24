@@ -51,4 +51,56 @@ Mahasiswa.create = (newMahasiswa, result) => {
     });
 };
 
+Mahasiswa.updateById = (mahasiswaId, mahasiswa, result) => {
+    conn.query("UPDATE mahasiswa SET nama_mhs = ?, dosen_wali = ?, kelas = ? WHERE id = ?",
+    [mahasiswa.nama_mhs, mahasiswa.dosen_wali, mahasiswa.kelas, mahasiswaId],
+    (err, res) => {
+        if (err) {
+            console.log("error : ", err);
+            result(null, err);
+            return;
+        }
+
+        if (res.affectedRows == 0) {
+            // mahasiswa dengan id tersebut ngga ada
+            result({kind : "ngga ada"}, null);
+            return;
+        }
+
+        console.log("update mahasiswa : ", {id:mahasiswaId, ...mahasiswa});
+        result(null, {id:mahasiswaId, ...mahasiswa})
+    })
+}
+
+Mahasiswa.deleteById = (mahasiswaId, result) => {
+    conn.query("DELETE FROM mahasiswa WHERE id = ?", mahasiswaId, (err, res) => {
+        if (err) {
+            console.log("error : ", err);
+            result(null, err);
+            return;
+        }
+
+        if (res.affectedRows == 0) {
+            // mahasiswa dengan id tersebut ngga ada
+            result({kind : "ngga ada"}, null);
+            return;
+        }
+
+        console.log("delete mahasiswa dengan id : ", mahasiswaId);
+        result(null, res);
+    })
+}
+
+Mahasiswa.deleteAll = (result) => {
+    conn.query("DELETE FROM mahasiswa", (err, res) => {
+        if (err) {
+            console.log("error : ", err);
+            result(err, null);
+            return;
+        }
+
+        console.log("delete "+res.affectedRows+" mahasiswa");
+        result(null, res);
+    })
+}
 module.exports = Mahasiswa;

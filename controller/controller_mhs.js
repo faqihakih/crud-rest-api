@@ -61,3 +61,67 @@ exports.create = (req, res) => {
         }
     })
 }
+
+// update data
+exports.update = (req, res) => {
+    // validate request
+    if (!req.body) {
+        res.status(400).send({
+            message : " Content cant be empey"
+        });
+    };
+
+    console.log(req.body);
+
+    Mahasiswa.updateById(req.params.mahasiswaId, new Mahasiswa(req.body), (err, data) => {
+        if (err) {
+            if (err.kind == "ngga ada") {
+                res.status(400).send({
+                    message : "data mahasiswa dengan id : "+req.params.mahasiswaId+" itu ngga ada"
+                });
+            } else {
+                res.status(500).send({
+                    message : "gagal menerima data mahasiswa dengan id : "+req.params.mahasiswaId
+                });
+            }
+        } else {
+            res.send(data);
+        }
+    })
+}
+
+// delete data by id
+exports.delete = (req, res) => {
+    Mahasiswa.deleteById(req.params.mahasiswaId, (err, data) => {
+        if (err) {
+            if (err.kind == "ngga ada") {
+                res.status(400).send({
+                    message : "data mahasiswa dengan id : "+req.params.mahasiswaId+" itu ngga ada"
+                })
+            } else {
+                res.status(500).send({
+                    message : "gagal bisa hapus data mahasiswa dengan id : "+req.params.mahasiswaId
+                })
+            }
+        } else {
+            res.send({
+                message : "Berhasil menghapus data mahasiswa!"
+            });
+        }
+    })
+}
+
+// delete all mahasiswa
+exports.deleteAll = (req, res) => {
+    Mahasiswa.deleteAll((err, data) => {
+        if (err) {
+            res.status(500).send({
+                message:  err.message || "ada yang tidak beres saat menghapus semua data mahasiswa"
+            });
+        }else{
+            res.send({
+                message : "Semua data mahasiswa berhasil dihapus"
+            })
+        }
+    })
+}

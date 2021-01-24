@@ -34,6 +34,9 @@ app.get('/', (req, res) => {
 app.get("/mahasiswa", mahasiswaController.findAll);
 app.get("/mahasiswa/:mahasiswaId", mahasiswaController.findOne);
 app.post("/mahasiswa", mahasiswaController.create)
+app.put("/mahasiswa/:mahasiswaId", mahasiswaController.update)
+app.delete("/mahasiswa/:mahasiswaId", mahasiswaController.delete)
+app.delete("/mahasiswa", mahasiswaController.deleteAll)
 
 app.listen(port, () => {
     console.log("berjalan pada http://localhost:" + port);
