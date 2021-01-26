@@ -1,7 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const conn = require('./config/connection');
-const mahasiswaController = require('./controller/controller_mhs')
+const mahasiswaController = require('./controller/controller_mhs');
+const dosenController = require('./controller/controller_dsn');
+const Dosen = require('./model/model_dsn');
+
 
 const app = express();
 
@@ -31,12 +33,18 @@ app.get('/', (req, res) => {
     //    conn.end();
 })
 
+
+// endpoint for mahasiswa
 app.get("/mahasiswa", mahasiswaController.findAll);
 app.get("/mahasiswa/:mahasiswaId", mahasiswaController.findOne);
 app.post("/mahasiswa", mahasiswaController.create)
 app.put("/mahasiswa/:mahasiswaId", mahasiswaController.update)
 app.delete("/mahasiswa/:mahasiswaId", mahasiswaController.delete)
 app.delete("/mahasiswa", mahasiswaController.deleteAll)
+
+// endpoint for dosen
+app.get("/dosen", dosenController.findAll)
+app.get("/dosen/:dosenId", dosenController.findOne)
 
 app.listen(port, () => {
     console.log("berjalan pada http://localhost:" + port);
