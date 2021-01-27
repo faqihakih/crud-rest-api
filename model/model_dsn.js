@@ -1,3 +1,4 @@
+const { resume } = require('../config/connection');
 const conn = require('../config/connection');
 
 // Construktor
@@ -48,4 +49,52 @@ Dosen.create = (newDosen, result) => {
     })
 }
 
+Dosen.update = (dosenId, dataDosen, result) => {
+    conn.query("UPDATE dosen SET nama_dosen = ?, pengampuh = ? WHERE id = ?", [dataDosen.nama_dosen, dataDosen.pengampuh, dosenId], (err, res) => {
+        if (err) {
+            console.log("Error : ", err);
+            result(null, err);
+            return;
+        }
+
+        if (res.affectedRows == 0) {
+            result({kind : "not found" }, null)
+            return;
+        }
+
+        console.log("update dosen : ", ({id : dosenId, ...dataDosen}));
+        result(null, {id : dosenId, ...dataDosen})
+    })
+}
+
+Dosen.delete = (dosenId, result) => {
+    conn.query("DELETE FROM dosen WHERE id = ?", dosenId, (err, res) =>{
+        if (err) {
+            console.log("error : ", err);
+            result(null, err);
+            return;
+        }
+
+        if (res.affectedRows == 0) {
+            result({kind : "not found"}, null);
+            return;
+        }
+
+        console.log("delete data dosen dengan id : ", dosenId);;
+        result(null, res);
+    })
+}
+
+Dosen.deleteAll = (result) => {
+    conn.query("DELETE FROM dosen", (err, res) => {
+        if (err) {
+            console.log("error ", err);
+            result(err, null);
+            return;
+        }
+
+        console.log("delete "+res.affectedRows+" dosen");
+        result(null, res);
+    })
+}
 module.exports = Dosen;

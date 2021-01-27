@@ -46,8 +46,10 @@ app.delete("/mahasiswa", mahasiswaController.deleteAll)
 app.get("/dosen", dosenController.findAll)
 app.get("/dosen/:dosenId", dosenController.findOne)
 app.post("/dosen", dosenController.create)
+app.put("/dosen/:dosenId", dosenController.update)
+app.delete("/dosen/:dosenId", dosenController.delete)
+app.delete("/dosen", dosenController.deleteAll)
 
 app.listen(port, () => {
     console.log("berjalan pada http://localhost:" + port);
 })
-6

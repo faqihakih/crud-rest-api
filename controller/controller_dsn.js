@@ -1,3 +1,4 @@
+const { resume } = require('../config/connection');
 const Dosen = require('../model/model_dsn');
 
 exports.findAll = (req, res) => {
@@ -49,6 +50,67 @@ exports.create = (req, res) => {
             })
         }else{
             res.send(data)
+        }
+    })
+}
+
+exports.update = (req, res) => {
+    if (!req.body) {
+        response.status(400).send({
+            message : "Content cant be empety"
+        })
+    }
+
+    console.log(req.body);
+
+    Dosen.update(req.params.dosenId, new Dosen(req.body), (err, data) => {
+        if (err) {
+            if (err.kind == "not found") {
+                res.status(400).send({
+                    message : `data mahasiswa dengan id : ${req.params.dosenId} tersebut tidak ada`
+                })
+            } else {
+                res.status(500).send({
+                    message : `gagal menerima data dosen dengan id ${req.params.dosenId}`
+                })
+            }
+        }else{
+            res.send(data);
+        }
+    })
+}
+
+exports.delete = (req, res) => {
+    Dosen.delete(req.params.dosenId, (err, data) => {
+        if (err) {
+            if (err.kind == "not found") {
+                console.log("error : ", err);
+                res.status(400).send({
+                message :  `data dengan id ${req.params.dosenId} tersebut tidak ada`
+            })
+            } else {
+                res.status(500).send({
+                    message : "gagal menerima data dari id "+req.params.dosenId
+                })
+            }
+        }else{
+            res.send({
+                message : "berhasil menghapus data dosen!"
+            })
+        }
+    })
+}
+
+exports.deleteAll = (req, res) => {
+    Dosen.deleteAll((err, data) => {
+        if (err) {
+            res.status(500).send({
+                message : err.message || "ada yang tidak beres saat menghapus semua data dosen"
+            })
+        }else{
+            res.send({
+                message : "semua data dosen berhasil dihapus"
+            })
         }
     })
 }
