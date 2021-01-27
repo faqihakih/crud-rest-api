@@ -45,6 +45,7 @@ app.delete("/mahasiswa", mahasiswaController.deleteAll)
 // endpoint for dosen
 app.get("/dosen", dosenController.findAll)
 app.get("/dosen/:dosenId", dosenController.findOne)
+app.post("/dosen", dosenController.create)
 
 app.listen(port, () => {
     console.log("berjalan pada http://localhost:" + port);

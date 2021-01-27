@@ -29,3 +29,26 @@ exports.findOne = (req, res) => {
         }
     })
 }
+
+exports.create = (req, res) => {
+    if (!req.body) {
+        res.status(400).send({
+            message : "content cant be empety"
+        })
+    }
+
+    const dosen = new Dosen({
+        nama_dosen : req.body.nama_dosen,
+        pengampuh : req.body.pengampuh
+    })
+
+    Dosen.create(dosen, (err, data) => {
+        if (err) {
+            res.status(500).send({
+                message : err.message || "some error occured"
+            })
+        }else{
+            res.send(data)
+        }
+    })
+}

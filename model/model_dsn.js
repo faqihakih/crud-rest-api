@@ -35,4 +35,17 @@ Dosen.getById = (dosenId, result) => {
     })
 }
 
+Dosen.create = (newDosen, result) => {
+    conn.query("INSERT INTO dosen SET ?", newDosen, (err , res) => {
+        if (err) {
+            console.log("error : ", err);
+            result(err, null);
+            return;
+        }
+
+        console.log("create dosen : ", {id : res.insertId, ...newDosen});
+        result(null, {id : res.insertId, ...newDosen});
+    })
+}
+
 module.exports = Dosen;
