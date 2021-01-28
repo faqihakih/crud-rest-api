@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mahasiswaController = require('./controller/controller_mhs');
 const dosenController = require('./controller/controller_dsn');
-const Dosen = require('./model/model_dsn');
+const matakuliahController = require('./controller/controller_matakuliah');
 
 
 const app = express();
@@ -49,6 +49,14 @@ app.post("/dosen", dosenController.create)
 app.put("/dosen/:dosenId", dosenController.update)
 app.delete("/dosen/:dosenId", dosenController.delete)
 app.delete("/dosen", dosenController.deleteAll)
+
+// endpoint for matakuliah
+app.get("/matakuliah", matakuliahController.findAll)
+app.get("/matakuliah/:matakuliahId", matakuliahController.findOne)
+app.post("/matakuliah", matakuliahController.create)
+app.put("/matakuliah/:matakuliahId", matakuliahController.update)
+app.delete("/matakuliah/:matakuliahId", matakuliahController.delete)
+
 
 app.listen(port, () => {
     console.log("berjalan pada http://localhost:" + port);
